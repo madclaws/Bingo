@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+      "target": "ES5",
+      "module": "CommonJS",
+      "sourceMap": true,
+      "noImplicitAny": false,
+      "strict": false,
+      "resolveJsonModule": true,
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+  },
+  "typedocOptions": {
+    "mode": "modules",
+    "out": "docs"
+  }
+}
