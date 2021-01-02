@@ -12,7 +12,8 @@ defmodule Dingo.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Dingo.PubSub},
       # Start the Endpoint (http/https)
-      DingoWeb.Endpoint
+      DingoWeb.Endpoint,
+      Garuda.GameManager
       # Start a worker by calling: Dingo.Worker.start_link(arg)
       # {Dingo.Worker, arg}
     ]

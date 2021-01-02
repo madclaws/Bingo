@@ -19,7 +19,7 @@ export default class GameplayScene extends Scene {
     this.renderGrid();
   }
 
-  public renderGrid(): void {
+  private renderGrid(): void {
     const startY = GAME_HEIGHT / 2;
     for (let i = 0; i < 5; i++) {
      const startOffsetX: number = 20 + 64;

@@ -24,6 +24,8 @@ export default class LoadScene extends Scene {
   public loadImages() {
     // this.load.atlas("atlas", "assets/images/atlas_v2.png", "assets/images/atlas_v2.json");
     this.load.image("grid", "assets/images_dev/grid.png");
+    this.load.image("btn_1", "assets/images_dev/btn_1.png");
+
     // this.load.image("path_extruded", "assets/images/tileset/path_extruded.png");
   }
 
@@ -38,7 +40,7 @@ export default class LoadScene extends Scene {
 
   public onAllFilesLoaded() {
     // GZLOADER.unload();
-    this.scene.start("GameplayScene");
+    this.scene.start("MainMenuScene");
   }
   
 }

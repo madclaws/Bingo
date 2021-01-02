@@ -16,7 +16,8 @@
   "dependencies": {
     "dat.gui": "^0.7.7",
     "phaser": "^3.50.0",
-    "webpack-obfuscator": "0.24.6"
+    "webpack-obfuscator": "0.24.6",
+    "garudajs": "file:/mnt/white_dwarf/Labs/GARUDA/garudajs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

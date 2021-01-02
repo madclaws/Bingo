@@ -8,6 +8,7 @@ import { GAME_PARENT, GAME_VERSION } from "./Constants";
 import BootScene from "./Scenes/BootScene";
 import GameplayScene from "./Scenes/GameplayScene";
 import LoadScene from "./Scenes/LoadScene";
+import MainMenuScene from "./Scenes/MainMenuScene";
 
 let IS_TOUCH: boolean = false;
 let phaserGameConfig: Phaser.Types.Core.GameConfig = {
@@ -32,7 +33,7 @@ let phaserGameConfig: Phaser.Types.Core.GameConfig = {
 		parent: GAME_PARENT,
 		width: 720,
   },
-  scene: [BootScene, LoadScene, GameplayScene],
+  scene: [BootScene, LoadScene, MainMenuScene, GameplayScene],
 	title: "Projekt Bingo",
 	type: Phaser.WEBGL,
 	version: GAME_VERSION,

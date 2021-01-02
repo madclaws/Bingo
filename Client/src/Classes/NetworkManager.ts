@@ -2,7 +2,8 @@
   Acts as an network interface between server asnd client.
 */
 
-import { Garuda } from "../../../GARUDA/garudajs/lib";
+import { Garuda } from "../../../../GARUDA/garudajs/lib";
+
 
 export class NetworkManager {
   public static eventEmitter: Phaser.Events.EventEmitter;
@@ -10,7 +11,7 @@ export class NetworkManager {
   private static socket: any;
   private static gameChannel: any;  
   public static init(): void {
-    this.playerId = "xmas_anon_" + Math.floor(Math.random() * 1000);
+    this.playerId = "bingo_anon_" + Math.floor(Math.random() * 1000);
     this.socket = new Garuda({
       playerId: this.playerId,
       socketUrl: "ws://localhost:4000/socket"
@@ -19,8 +20,8 @@ export class NetworkManager {
   }
 
   public static joinMatchMaker(): void {
-    this.socket.getGameChannel("xmas", {
-      maxPlayers: 2,
+    this.socket.getGameChannel("bingo", {
+      maxPlayers: 1,
     }, this.onMatchMade.bind(this));
   }
 
@@ -41,7 +42,8 @@ export class NetworkManager {
     console.log(message);
     this.gameChannel.join()
     .receive("ok", (resp) => {
-      console.log("xmas room, successfully");
+      console.log("bingo room, successfully");
+      this.eventEmitter.emit("joinedRoom");
       this.registerEvents();
     })
     .receive("error", (resp) => {console.warn("Unable to join")});
