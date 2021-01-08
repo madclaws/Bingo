@@ -8,6 +8,6 @@ defmodule Dingo.BingoRoom do
   @impl true
   def create(opts) do
     IO.puts("Created Bingo room #{inspect opts}")
-    {:ok, %{}}
+    %{}
   end
 end
