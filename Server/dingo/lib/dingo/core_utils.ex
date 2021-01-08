@@ -27,7 +27,7 @@ defmodule Dingo.CoreUtils do
     row = div(index, 5)
     col = rem(index, 5)
     board = put_in(board[row][col], %{num: h, check: false})
-    board_index = put_in(board_index[h], {row, col})
+    board_index = put_in(board_index[h], [row, col])
     generate_board(t, board, index + 1, board_index)
   end
 end

@@ -50,9 +50,9 @@ export class NetworkManager {
   }
 
   private static registerEvents(): void {
-    this.gameChannel.on("player_joined", msg => {
-      // console.log("on player joined ", msg);
-      this.eventEmitter.emit("player_joined", msg);
+    this.gameChannel.on("game_board", msg => {
+      console.log("game_board", msg);
+      this.eventEmitter.emit("game_board", msg);
     });
 
     this.gameChannel.on("opponent_move", msg => {

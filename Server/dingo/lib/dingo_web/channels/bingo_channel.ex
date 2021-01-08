@@ -3,9 +3,10 @@ defmodule DingoWeb.BingoChannel do
     handler
   """
   use Garuda.GameChannel
-
-  def on_join(_params, _socket) do
-
+  alias Dingo.BingoRoom
+  def on_join(_params, socket) do
+    IO.puts("Player joined bingo room => #{inspect socket.assigns.player_id}")
+    BingoRoom.on_player_join(id(socket), socket.assigns.player_id)
   end
 
   def authorized?(_params) do

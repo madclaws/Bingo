@@ -3,8 +3,11 @@
 */
 
 import { Scene } from "phaser";
-import { Grid } from "../Classes/Grid";
+import { BoardManager } from "../Classes/BoardManager";
+import { Cell } from "../Containers/Cell";
+import { NetworkManager } from "../Classes/NetworkManager";
 import { GAME_HEIGHT, GAME_WIDTH } from "../Constants";
+import { BoardContainer } from "../Containers/BoardContainer";
 
 export default class GameplayScene extends Scene {
   public constructor() {
@@ -16,20 +19,17 @@ export default class GameplayScene extends Scene {
   public create(): void {
     console.log("Gameplay Scene");
     this.cameras.main.setBackgroundColor("#d0f4f7");
-    this.renderGrid();
+    NetworkManager.eventEmitter.on("game_board", this.onGameBoard, this);
+
+    // this.renderGrid();
   }
 
-  private renderGrid(): void {
-    const startY = GAME_HEIGHT / 2;
-    for (let i = 0; i < 5; i++) {
-     const startOffsetX: number = 20 + 64;
-     const offsetY = i === 0 ? 0 :  10;
-     for (let j = 0; j < 5; j++) {
-      const offsetX = j === 0 ? 0 :  10;
-      const grid = new Grid(this, startOffsetX + (j * 128 + (j * offsetX)),
-        startY + (i * 128 + (i * offsetY)));
-     }
-    }
-  }
+
+  private onGameBoard(boardData: any): void {
+    console.warn("onGameBoard", boardData);
+    BoardManager.init(boardData.board, boardData.index);
+    const boardContainer = new BoardContainer(this);
+  } 
+  
 
 }
