@@ -4,7 +4,7 @@
 
 
 export const GAME_PARENT: string = "game";
-export const GAME_VERSION: string = "0.0.0";
+export const GAME_VERSION: string = "0.0.1";
 export const GAME_WIDTH: number = 720;
 export const GAME_HEIGHT: number = 1280;
 

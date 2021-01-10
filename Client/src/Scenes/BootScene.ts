@@ -51,9 +51,9 @@ export default class BootScene extends Scene {
   
   private handleVisibilityChange() {
 		if (document[this.crossHiddenString]) {
-			// gamezop.mute();
+      // 
 		} else {
-      // gamezop.unmute();
+      // 
 		}
   }
   
@@ -73,14 +73,12 @@ export default class BootScene extends Scene {
 			}
 			document.getElementById("rotate").style.display = "block";
 			if (shouldWeCheckSdkFunctions) {
-				// gamezop.pause();
-				// gamezop.mute();
+        // 
 			}
 		} else { 
 			document.getElementById("rotate").style.display = "none";
 			if (shouldWeCheckSdkFunctions) {
-				// gamezop.play();
-				// gamezop.unmute();
+        // 
 			}
 		}
   }

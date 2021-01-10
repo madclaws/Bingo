@@ -8,6 +8,7 @@ import { Garuda } from "../../../../GARUDA/garudajs/lib";
 export class NetworkManager {
   public static eventEmitter: Phaser.Events.EventEmitter;
   public static playerId: string;
+  public static isClientTurn: boolean = false;
   private static socket: any;
   private static gameChannel: any;  
   public static init(): void {
@@ -21,11 +22,12 @@ export class NetworkManager {
 
   public static joinMatchMaker(): void {
     this.socket.getGameChannel("bingo", {
-      maxPlayers: 1,
+      maxPlayers: 2,
     }, this.onMatchMade.bind(this));
   }
 
   public static sendMessage(event: string, message: any): void {
+    this.isClientTurn = false;
     this.gameChannel.push(event, message);
   }
 
@@ -51,16 +53,31 @@ export class NetworkManager {
 
   private static registerEvents(): void {
     this.gameChannel.on("game_board", msg => {
+    console.log("🚀 ~ file: NetworkManager.ts ~ line 56 ~ NetworkManager ~ registerEvents ~ msg", msg)
       console.log("game_board", msg);
       this.eventEmitter.emit("game_board", msg);
     });
 
-    this.gameChannel.on("opponent_move", msg => {
-      // console.log("on player joined ", msg);
-      // this.eventEmitter.emit("player_joined", msg);
-      console.log("opponent_move", msg);
-      this.eventEmitter.emit("opponent_move", msg);
+    this.gameChannel.on("start_battle", msg => {
+    console.log("🚀 ~ file: NetworkManager.ts ~ line 61 ~ NetworkManager ~ registerEvents ~ msg", msg)
+      this.eventEmitter.emit("start_battle", msg);
+      if (msg.next_turn === this.playerId) {
+        this.isClientTurn = true;
+      }
     });
+
+   this.gameChannel.on("line_counts", msg => {
+    this.eventEmitter.emit("line_counts", msg);
+     if (msg.next_turn === this.playerId) {
+       this.isClientTurn = true;
+     }
+   console.log("🚀 ~ file: NetworkManager.ts ~ line 70 ~ NetworkManager ~ registerEvents ~ msg", msg)
+   });
+   
+   this.gameChannel.on("gameover", msg => {
+   console.log("🚀 ~ file: NetworkManager.ts ~ line 74 ~ NetworkManager ~ registerEvents ~ msg", msg)
+    console.log(msg);
+   });
   }
 
   private static setupGameEvents(): void {

@@ -14,4 +14,8 @@ export class BoardManager {
     this.board = board;
     this.index = index;
   }
+
+  public static getCell(num: number): number[] {
+    return this.index[num];
+  }
 }
