@@ -20,8 +20,6 @@ export default class MainMenuScene extends Scene {
     btnPlay.setInteractive();
     btnPlay.setScale(2);
     btnPlay.on("pointerup", () => {
-      // this.scene.start("GameplayScene");
-      NetworkManager.joinMatchMaker();
       this.onJoinedRoom();
     });
   }

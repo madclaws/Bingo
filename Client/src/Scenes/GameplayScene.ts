@@ -22,6 +22,7 @@ export default class GameplayScene extends Scene {
 
   public create(): void {
     console.log("Gameplay Scene");
+    NetworkManager.joinMatchMaker();
     this.cameras.main.setBackgroundColor("#d0f4f7");
     NetworkManager.eventEmitter.on("game_board", this.onGameBoard, this);
     NetworkManager.eventEmitter.on("start_battle", this.startBattle, this);

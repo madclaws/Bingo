@@ -17,6 +17,11 @@ defmodule DingoWeb.BingoChannel do
   end
 
   @impl true
+  def on_rejoin(_params, socket) do
+    IO.puts("Player rejoined bingo room => #{inspect socket.assigns.player_id}")
+  end
+
+  @impl true
   def handle_in("player_move", cell, socket) do
     BingoRoom.on_player_move(id(socket), socket.assigns.player_id, cell)
     {:noreply, socket}
