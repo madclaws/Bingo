@@ -17,7 +17,7 @@
     "dat.gui": "^0.7.7",
     "phaser": "^3.50.0",
     "webpack-obfuscator": "0.24.6",
-    "garudajs": "0.1.13"
+    "garudajs": "0.1.15"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
