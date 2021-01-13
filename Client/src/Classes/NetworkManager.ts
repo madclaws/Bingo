@@ -15,7 +15,7 @@ export class NetworkManager {
     this.playerId = "bingo_anon_" + Math.floor(Math.random() * 1000);
     this.socket = new Garuda({
       playerId: this.playerId,
-      socketUrl: "ws://localhost:4000/socket"
+      socketUrl: "ws://192.168.1.12:4000/socket"
     });
     this.setupGameEvents();
   }
