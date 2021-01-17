@@ -28,15 +28,10 @@ defmodule DingoWeb.BingoChannel do
   end
 
   @impl true
-  def authorized?(_params) do
+  def authorized?(params) do
+    IO.puts(inspect(params))
     true
   end
-
-  @impl true
-  def on_leave(_reason, socket) do
-    BingoRoom.on_player_leave(id(socket), socket.assigns.player_id)
-  end
-
 
 
 end

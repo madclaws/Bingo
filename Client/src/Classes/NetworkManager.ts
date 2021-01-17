@@ -2,7 +2,7 @@
   Acts as an network interface between server asnd client.
 */
 
-import { Garuda } from "../../../../GARUDA/garudajs/lib";
+import {Garuda} from "garudajs";
 
 
 export class NetworkManager {
@@ -20,10 +20,8 @@ export class NetworkManager {
     this.setupGameEvents();
   }
 
-  public static joinMatchMaker(): void {
-    this.socket.getGameChannel("bingo", {
-      maxPlayers: 2,
-    }, this.onMatchMade.bind(this));
+  public static joinRoom(): void {
+    this.socket.joinGameChannel("bingo", {maxPlayers: 2}, this.onJoinRoom.bind(this));
   }
 
   public static sendMessage(event: string, message: any): void {
@@ -31,51 +29,40 @@ export class NetworkManager {
     this.gameChannel.push(event, message);
   }
 
-  private static onMatchMade(gameChannel: any, message: any): void {
-    if (gameChannel) {
-      this.joinRoom(gameChannel, message);
-    } else {
-      console.warn("Match not found");
+  private static onJoinRoom(message: string, gameChannel: any): void {
+    if (message !== "ok") {
+      console.log("Can't join the room");
+      return;
     }
-  }
-
-  private static joinRoom(gameChannel: any, message: any): void {
     this.gameChannel = gameChannel;
-    console.log(message);
-    this.gameChannel.join()
-    .receive("ok", (resp) => {
-      console.log("bingo room, successfully");
-      this.eventEmitter.emit("joinedRoom");
-      this.registerEvents();
-    })
-    .receive("error", (resp) => {console.warn("Unable to join")});
+    this.eventEmitter.emit("joinedRoom");
+    this.registerEvents();
   }
 
   private static registerEvents(): void {
     this.gameChannel.on("game_board", msg => {
-    console.log("🚀 ~ file: NetworkManager.ts ~ line 56 ~ NetworkManager ~ registerEvents ~ msg", msg)
       console.log("game_board", msg);
       this.eventEmitter.emit("game_board", msg);
     });
 
     this.gameChannel.on("start_battle", msg => {
-    console.log("🚀 ~ file: NetworkManager.ts ~ line 61 ~ NetworkManager ~ registerEvents ~ msg", msg)
+    console.log("start_battle", msg);
       this.eventEmitter.emit("start_battle", msg);
       if (msg.next_turn === this.playerId) {
         this.isClientTurn = true;
       }
     });
 
-   this.gameChannel.on("line_counts", msg => {
-    this.eventEmitter.emit("line_counts", msg);
-     if (msg.next_turn === this.playerId) {
-       this.isClientTurn = true;
-     }
-   console.log("🚀 ~ file: NetworkManager.ts ~ line 70 ~ NetworkManager ~ registerEvents ~ msg", msg)
-   });
+    this.gameChannel.on("line_counts", msg => {
+      this.eventEmitter.emit("line_counts", msg);
+      if (msg.next_turn === this.playerId) {
+        this.isClientTurn = true;
+      }
+    console.log("line_counts", msg);
+    });
    
    this.gameChannel.on("gameover", msg => {
-   console.log("🚀 ~ file: NetworkManager.ts ~ line 74 ~ NetworkManager ~ registerEvents ~ msg", msg)
+   console.log("gameover", msg);
     console.log(msg);
    });
   }

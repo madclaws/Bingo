@@ -1,1 +1,2 @@
-// "garudajs": "file:/mnt/white_dwarf/Labs/GARUDA/garudajs"
+"garudajs": "file:/mnt/white_dwarf/Labs/GARUDA/garudajs"
+"garudajs": "0.1.15"

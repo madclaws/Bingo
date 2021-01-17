@@ -26,6 +26,12 @@ defmodule Dingo.BingoRoom do
   end
 
   @impl true
+  def leave(_player_id, game_state) do
+    IO.puts("leave callback")
+    {:ok, game_state}
+  end
+
+  @impl true
   def handle_call({"player_join", player_id}, _from, state) do
     {board, board_index} = CoreUtils.generate_random_bingo_board()
     state = put_in state["players"][player_id], %{"board" => board, "index" => board_index, "bingo_count" => 0}
@@ -47,7 +53,7 @@ defmodule Dingo.BingoRoom do
         # IO.puts(inspect state)
         if state["gameover"] do
           IO.puts("Games freaking over")
-          shutdown(state)
+          shutdown()
         end
         {:reply, "ok", state}
       _ ->
