@@ -21,7 +21,7 @@ export class NetworkManager {
   }
 
   public static joinRoom(): void {
-    this.socket.joinGameChannel("bingo", {maxPlayers: 2}, this.onJoinRoom.bind(this));
+    this.socket.joinGameChannel("bingo", {maxPlayers: 1}, this.onJoinRoom.bind(this));
   }
 
   public static sendMessage(event: string, message: any): void {

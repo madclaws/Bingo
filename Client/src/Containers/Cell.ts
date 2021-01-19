@@ -35,6 +35,8 @@ export class Cell extends Phaser.GameObjects.Container {
   
   private renderCell() {
     const cell = this.scene.add.image(0, 0, "grid");
+    cell.setScale(0.5);
+    cell.visible = false;
     if (this.isBoardCell) {
       cell.setInteractive();
       cell.on("pointerup", () => {
@@ -52,7 +54,7 @@ export class Cell extends Phaser.GameObjects.Container {
 
   private renderNumber(num: number | string): void {
     this.numberText = this.scene.add.text(0, 0, num.toString(),
-    {fontFamily: "FORVERTZ", fontSize: "52px", color: "#ffffff"});
+    {fontFamily: "FORVERTZ", fontSize: "80px", color: "#000000"});
     this.numberText.setOrigin(0.5);
     this.add(this.numberText);
   }

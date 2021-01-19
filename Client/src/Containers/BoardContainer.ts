@@ -29,6 +29,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
 
   private createBoard(): void {
     this.renderBoard();
+    this.renderGridLines();
   }
 
   private renderBoard(): void {
@@ -46,6 +47,24 @@ export class BoardContainer extends Phaser.GameObjects.Container {
       this.cellMatrix[i][j] = grid;
      }
     }
+  }
+
+  private renderGridLines(): void {
+    const startY = (-720 / 2 ) + 359 / 2;
+    const startOffsetX: number = (-720 / 2) + 20;
+    this.renderGridLine(startOffsetX, startY, true);
+    // for (let i = 0; i < 6; i++) {
+
+    // }
+  }
+
+  private renderGridLine(x: number, y: number, isVertical: boolean): void {
+    const gridLine: Phaser.GameObjects.Image = this.scene.add.image(x, y, "black_line");
+    if (isVertical) {
+      gridLine.angle = 90;
+    }
+
+    this.add(gridLine);
   }
 
 }

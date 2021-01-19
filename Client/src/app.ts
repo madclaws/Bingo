@@ -14,7 +14,6 @@ let IS_TOUCH: boolean = false;
 let phaserGameConfig: Phaser.Types.Core.GameConfig = {
 	banner: {
 		background: ["#C19A6B"],
-		hidePhaser: true,
     text: "#000080",
   },
 	height: 1280,
