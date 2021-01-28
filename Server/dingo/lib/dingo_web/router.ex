@@ -1,6 +1,8 @@
 defmodule DingoWeb.Router do
   use DingoWeb, :router
 
+  import Garuda.Monitor.Router
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -15,8 +17,8 @@ defmodule DingoWeb.Router do
 
   scope "/", DingoWeb do
     pipe_through :browser
-
     get "/", PageController, :index
+    monitor("/monitor")
   end
 
   # Other scopes may use custom stacks.

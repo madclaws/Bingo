@@ -3,6 +3,7 @@
 */
 
 import { Scene } from "phaser";
+import { BoardManager } from "../Classes/BoardManager";
 import { NetworkManager } from "../Classes/NetworkManager";
 import { ICell } from "../Utils/Interfaces";
 
@@ -20,42 +21,72 @@ export class Cell extends Phaser.GameObjects.Container {
   }
 
   public create(num: number | string) {
+    this.setSize(128, 128);
+    // this.renderDebug();
     this.renderCell();
     this.renderNumber(num);
     this.scene.add.existing(this);
   }
 
-  public setCellTint(color: number): void {
+  public checkCell(): void {
     if (this.isChecked) {
       return;
     }
-    const cell: Phaser.GameObjects.Image = this.getAt(0) as Phaser.GameObjects.Image;
-    cell.setTint(color);
+    if (this.isBoardCell) {
+      this.drawCross();
+    } else {
+      this.drawRedCross();
+    }
+    // const cell: Phaser.GameObjects.Image = this.getAt(0) as Phaser.GameObjects.Image;
+    // cell.setTint(color);
   }
   
   private renderCell() {
-    const cell = this.scene.add.image(0, 0, "grid");
-    cell.setScale(0.5);
-    cell.visible = false;
     if (this.isBoardCell) {
-      cell.setInteractive();
-      cell.on("pointerup", () => {
+      this.setInteractive();
+      this.on("pointerup", () => {
         if (this.isChecked || !NetworkManager.isClientTurn) {
           return;
         }
+        this.drawCross();
         this.isChecked = true;
+        // BoardManager.checkCell(this.cell);
         console.log("Clicking", this.cell);
-        cell.setTint(0xff0000, 0xff0000, 0xff0000, 0xff0000);
         NetworkManager.sendMessage("player_move", [this.cell.row, this.cell.col]);
       });
     }
-    this.add(cell);
   }
 
   private renderNumber(num: number | string): void {
+    let fontSize = "85px";
+    if (!this.isBoardCell) {
+      fontSize = "100px";
+    }
     this.numberText = this.scene.add.text(0, 0, num.toString(),
-    {fontFamily: "FORVERTZ", fontSize: "80px", color: "#000000"});
+    {fontFamily: "FORVERTZ", fontSize: fontSize, color: "#000000"});
     this.numberText.setOrigin(0.5);
     this.add(this.numberText);
   }
+
+  private drawCross(): void {
+    const line: Phaser.GameObjects.Image = this.scene.add.image(0, 0, "blue_cross");
+    this.add(line);
+  }
+
+  private renderDebug(): void {
+    const graphics: Phaser.GameObjects.Graphics = this.scene.add.graphics();
+    const rectangle: Phaser.Geom.Rectangle = new Phaser.Geom.Rectangle(-this.width / 2,
+      -this.height / 2, this.width, this.height);
+    graphics.fillStyle(0xff0000, 0.5);
+    graphics.fillRectShape(rectangle);
+    this.add(graphics);
+  }
+
+  private drawRedCross(): void {
+    const line: Phaser.GameObjects.Image = this.scene.add.image(0, 0, "red_cross");
+    this.add(line);
+  }
+
 }
+
+// 0086c8 blue color

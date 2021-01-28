@@ -5,6 +5,7 @@
 import { Scene } from "phaser";
 import { NetworkManager } from "../Classes/NetworkManager";
 import { GAME_HEIGHT, GAME_WIDTH } from "../Constants";
+import { GameoverContainer } from "../Containers/GameoverContainer";
 
 export default class MainMenuScene extends Scene {
   public constructor() {
@@ -18,12 +19,6 @@ export default class MainMenuScene extends Scene {
     this.renderTitle();
     this.renderPlayButton();
     this.renderAudioButton();
-    // const btnPlay = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, "btn_1");
-    // btnPlay.setInteractive();
-    // btnPlay.setScale(2);
-    // btnPlay.on("pointerup", () => {
-    //   this.onJoinedRoom();
-    // });
   }
 
   private renderBackground(): void {

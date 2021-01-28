@@ -15,13 +15,17 @@ export class NetworkManager {
     this.playerId = "bingo_anon_" + Math.floor(Math.random() * 1000);
     this.socket = new Garuda({
       playerId: this.playerId,
-      socketUrl: "ws://192.168.1.12:4000/socket"
+      socketUrl: "ws://192.168.1.2:4000/socket",
     });
     this.setupGameEvents();
   }
 
   public static joinRoom(): void {
-    this.socket.joinGameChannel("bingo", {maxPlayers: 1}, this.onJoinRoom.bind(this));
+    this.socket.joinGameChannel("bingo", {maxPlayers: 2}, this.onJoinRoom.bind(this));
+  }
+
+  public static leaveRoom(): void {
+    this.gameChannel.leave();
   }
 
   public static sendMessage(event: string, message: any): void {
@@ -62,8 +66,14 @@ export class NetworkManager {
     });
    
    this.gameChannel.on("gameover", msg => {
-   console.log("gameover", msg);
-    console.log(msg);
+    console.log("gameover", msg);
+    if (msg.winner.length === 2) {
+      this.eventEmitter.emit("game_over", "draw");
+    } else if (msg.winner[0][0] === this.playerId) {
+      this.eventEmitter.emit("game_over", "won");
+    } else {
+      this.eventEmitter.emit("game_over", "lost");
+    }
    });
   }
 
