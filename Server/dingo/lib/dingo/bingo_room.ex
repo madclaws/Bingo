@@ -53,7 +53,7 @@ defmodule Dingo.BingoRoom do
         # IO.puts(inspect state)
         if state["gameover"] do
           IO.puts("Games freaking over")
-          shutdown()
+          # shutdown()
         end
         {:reply, "ok", state}
       _ ->

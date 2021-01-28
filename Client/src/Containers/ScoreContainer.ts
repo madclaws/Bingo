@@ -9,20 +9,27 @@ export class ScoreContainer extends Phaser.GameObjects.Container {
   private playerName: string;
   private isPlayer: boolean;
   private cellList: Cell[] = [];
+  private currentScoreIndex: number = 0;
   public constructor(scene: Scene, x: number, y: number, name: string, isPlayer: boolean) {
     super(scene, x, y);
-    this.playerName = name;
     this.isPlayer = isPlayer;
+    if (this.isPlayer) {
+      this.playerName = "You";
+    } else {
+      this.playerName = name;
+    }
     this.scene.add.existing(this);
     this.create();
   }
 
-  public checkCell(): void {
-    if (this.isPlayer) {
-      this.cellList[0].setCellTint(0x00ff00);
-    } else {
-      this.cellList[0].setCellTint(0xff0000);
+  public checkScore(score: number): void {
+    if (this.currentScoreIndex === score) {
+      return;
     }
+    for (let i = this.currentScoreIndex; i < score; i++) {
+      this.cellList[i].checkCell();
+    }
+    this.currentScoreIndex = score - 1;
   }
 
   private create(): void {
@@ -43,7 +50,7 @@ export class ScoreContainer extends Phaser.GameObjects.Container {
 
   private renderNameLabel(): void {
     const nameLabel: Phaser.GameObjects.Text = this.scene.add.text(0, -100 + 20, this.playerName,
-      {fontFamily: "FORVERTZ", fontSize: "32px", color: this.isPlayer ? "#00ff00" : "#ff0000"});
+      {fontFamily: "FORVERTZ", fontSize: "70px", color: this.isPlayer ? "#00ff00" : "#ff0000"});
     nameLabel.setOrigin(0.5);
     this.add(nameLabel); 
   }
