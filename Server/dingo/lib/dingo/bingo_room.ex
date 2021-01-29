@@ -3,8 +3,9 @@ defmodule Dingo.BingoRoom do
   Game room module for Bingo game
   """
 
-  use Garuda.GameRoom
+  use Garuda.GameRoom, reconnection_timeout: 30_000
   alias Dingo.CoreUtils
+
   # Client functions
   def on_player_join(pid, player_id) do
     GenServer.call(pid, {"player_join", player_id})
@@ -14,8 +15,8 @@ defmodule Dingo.BingoRoom do
     GenServer.call(pid, {"player_move", cell, player_id})
   end
 
-  def on_player_leave(pid, player_id) do
-    GenServer.call(pid, {"player_leave", player_id})
+  def on_player_rejoin(pid, player_id) do
+    GenServer.call(pid, {"player_rejoin", player_id})
   end
 
   # server functions
@@ -26,8 +27,13 @@ defmodule Dingo.BingoRoom do
   end
 
   @impl true
-  def leave(_player_id, game_state) do
-    IO.puts("leave callback")
+  def leave(player_id, game_state) do
+    IO.puts("leave callback #{player_id}")
+    {_popped_val, game_state} = pop_in(game_state["players"][player_id])
+    if Enum.empty?(game_state["players"]) do
+      IO.puts("No players left, shutting down")
+      shutdown()
+    end
     {:ok, game_state}
   end
 
@@ -50,11 +56,12 @@ defmodule Dingo.BingoRoom do
         IO.puts("valid turn => #{inspect selected_number}")
         state = update_players_board(state, selected_number)
         |> broadcast_lineclear_counts(selected_number)
-        # IO.puts(inspect state)
         if state["gameover"] do
           IO.puts("Games freaking over")
-          # shutdown()
         end
+        state = %{state | "move_count" => state["move_count"] + 1,
+                          "last_num" => selected_number
+                  }
         {:reply, "ok", state}
       _ ->
         IO.puts("player invalid")
@@ -63,9 +70,10 @@ defmodule Dingo.BingoRoom do
   end
 
   @impl true
-  def handle_call({"player_leave", player_id}, _from, state) do
-    IO.puts("Player leaving #{player_id}")
-    {:reply, "left", state}
+  def handle_call({"player_rejoin", _player_id}, _from, game_state) do
+    IO.puts("broadcasting on rejoining")
+    broadcast_lineclear_counts(game_state, game_state["last_num"], game_state["move_count"])
+    {:reply, "ok", game_state}
   end
 
   # Helper functions
@@ -76,7 +84,9 @@ defmodule Dingo.BingoRoom do
       "turn_list" => [],
       "max_players" => max_players,
       "current_turn" => 0,
-      "gameover" => false
+      "gameover" => false,
+      "move_count" => 0,
+      "last_num" => nil
     }
   end
 
@@ -122,7 +132,7 @@ defmodule Dingo.BingoRoom do
     }
   end
 
-  defp broadcast_lineclear_counts(state, selected_number) do
+  defp broadcast_lineclear_counts(state, selected_number, move_count \\ nil) do
     lineclear_count_list = state["players"]
     |> Map.to_list()
     |> Enum.map(fn {player_id, player_state} ->
@@ -130,7 +140,8 @@ defmodule Dingo.BingoRoom do
     end)
     IO.puts(inspect lineclear_count_list)
     DingoWeb.Endpoint.broadcast!(get_channel(), "line_counts", %{"counts" => lineclear_count_list,
-    "next_turn" => Enum.fetch!(state["turn_list"], state["current_turn"]), "num" => selected_number})
+    "next_turn" => Enum.fetch!(state["turn_list"], state["current_turn"]), "num" => selected_number,
+    "move_count" => move_count})
     winner_list = Enum.filter(lineclear_count_list, fn [_pid, count] ->
       count >= 5
     end)

@@ -5,6 +5,9 @@ defmodule DingoWeb.BingoChannel do
   use Garuda.GameChannel
   alias Dingo.BingoRoom
   @impl true
+
+  # the lint error, no becuase of the params we passed.
+  # But when we use push/broadcast
   def on_join(_params, socket) do
     IO.puts("Player joined bingo room => #{inspect socket.assigns.player_id}")
     {can_start_battle, next_turn, board_state} = BingoRoom.on_player_join(id(socket),
@@ -19,6 +22,7 @@ defmodule DingoWeb.BingoChannel do
   @impl true
   def on_rejoin(_params, socket) do
     IO.puts("Player rejoined bingo room => #{inspect socket.assigns.player_id}")
+    BingoRoom.on_player_rejoin(id(socket), socket.assigns.player_id)
   end
 
   @impl true

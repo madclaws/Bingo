@@ -28,8 +28,8 @@ export class BoardContainer extends Phaser.GameObjects.Container {
 
   public renderGameover(winStatus: string): void {
     setTimeout(() => {
-      new GameoverContainer(this.scene, winStatus);
-    }, 1500);
+      const _gameover: GameoverContainer = new GameoverContainer(this.scene, winStatus);
+    }, 1000);
   }
 
   private create(): void {

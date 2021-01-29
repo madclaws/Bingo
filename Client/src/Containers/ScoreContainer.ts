@@ -50,7 +50,7 @@ export class ScoreContainer extends Phaser.GameObjects.Container {
 
   private renderNameLabel(): void {
     const nameLabel: Phaser.GameObjects.Text = this.scene.add.text(0, -100 + 20, this.playerName,
-      {fontFamily: "FORVERTZ", fontSize: "70px", color: this.isPlayer ? "#00ff00" : "#ff0000"});
+      {fontFamily: "FORVERTZ", fontSize: "70px", color: this.isPlayer ? "#0086c8" : "#ed1c24"});
     nameLabel.setOrigin(0.5);
     this.add(nameLabel); 
   }

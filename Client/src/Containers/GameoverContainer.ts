@@ -46,7 +46,7 @@ export class GameoverContainer extends Phaser.GameObjects.Container {
     let winText = "YOU WON !";
     if (winStatus === "lost") {
       winText = "YOU LOST !";
-    } else if (winStatus === "DRAW") {
+    } else if (winStatus === "draw") {
       winText = "DRAW !";
     }
 
