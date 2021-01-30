@@ -3,17 +3,19 @@
 */
 
 import { Scene } from "phaser";
+import { GAME_HEIGHT, GAME_WIDTH } from "../Constants";
 
 export default class LoadScene extends Scene {
-
+  private progressBar: Phaser.GameObjects.Image;
   public constructor() {
     super({
       key: "LoadScene"
     });
   }
 
-  public preload() {
-		// GZLOADER.modify(108, 200);
+  public preload(): void {
+    // GZLOADER.modify(108, 200);
+    this.renderLoader();
 		this.load.crossOrigin = "anonymous";
 		this.loadImages();
 		this.loadAudio();
@@ -21,47 +23,39 @@ export default class LoadScene extends Scene {
 		this.load.on("complete", this.onAllFilesLoaded.bind(this));
   }
 
-  public loadImages() {
-    // this.load.atlas("atlas", "assets/images/atlas_v2.png", "assets/images/atlas_v2.json");
-    this.load.image("grid", "assets/images_dev/grid.png");
-    this.load.image("btn_1", "assets/images_dev/btn_1.png");
-    this.load.image("bg", "assets/images_dev/bg.png");
-    this.load.image("line", "assets/images_dev/line.png");
-    this.load.image("line_grid", "assets/images_dev/line_grid.png");
-    this.load.image("line_grid_red", "assets/images_dev/line_grid_red.png");
-
-    this.load.image("blue_cross", "assets/images_dev/blue_cross.png");
-    this.load.image("red_cross", "assets/images_dev/red_cross.png");
-
-
-    this.load.image("black_line", "assets/images_dev/black_line.png");
-    
-    this.load.image("slider", "assets/images_dev/slider.png");
-    
-    this.load.image("btn_play", "assets/images_dev/btn_play.png");
-    this.load.image("sound_0", "assets/images_dev/sound_0.png");
-    this.load.image("sound_1", "assets/images_dev/sound_1.png");
-    
-    this.load.image("gameover_panel", "assets/images_dev/gameover_panel.png");
-    this.load.image("button", "assets/images_dev/button.png");
-    this.load.image("next", "assets/images_dev/next.png");
-    this.load.image("overlay", "assets/images_dev/overlay.png");
-    
+  private loadImages(): void {
+    this.load.atlas("atlas", "assets/images/atlas.png", "assets/images/atlas.json");
     // this.load.image("path_extruded", "assets/images/tileset/path_extruded.png");
   }
 
-  public loadAudio() {
+  private loadAudio(): void {
     // this.load.audioSprite("sfx", "assets/audio/output_v2.json",
     // ["assets/audio/output_v2.mp3", "assets/audio/output_v2.ogg"]);
   }
 
-  public onFileComplete(progress: number) {
-		// GZLOADER.loadProcess(progress * 100);
+  private onFileComplete(progress: number): void {
+    if (this.progressBar.scaleX < progress) {
+      this.progressBar.scaleX = progress;
+    }
   }
 
-  public onAllFilesLoaded() {
-    // GZLOADER.unload();
+  private onAllFilesLoaded(): void {
     this.scene.start("MainMenuScene");
   }
+
+  private renderLoader(): void {
+    const logo: Phaser.GameObjects.Image = this.add.image(GAME_WIDTH / 2,
+      GAME_HEIGHT / 2 - 150, "logo");
+    this.progressBar = this.add.image(GAME_WIDTH / 2 - 250,
+      GAME_HEIGHT / 2 + 100, "loader");
+    const powered: Phaser.GameObjects.Text = this.add.text(GAME_WIDTH / 2,
+      GAME_HEIGHT / 2 + 200, "powered by Garuda", {fontFamily: "FORVERTZ", fontSize: "50px",
+    color: "#ffffff"});
+    powered.setOrigin(0.5);
+    this.progressBar.scaleX = 0;
+    this.progressBar.scaleY = 0.8;
+    this.progressBar.setOrigin(0, 0.5);
+  }
+  
   
 }

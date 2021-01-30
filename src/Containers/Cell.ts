@@ -69,7 +69,7 @@ export class Cell extends Phaser.GameObjects.Container {
   }
 
   private drawCross(): void {
-    const line: Phaser.GameObjects.Image = this.scene.add.image(0, 0, "blue_cross");
+    const line: Phaser.GameObjects.Image = this.scene.add.image(0, 0, "atlas", "blue_cross");
     this.add(line);
   }
 
@@ -83,7 +83,7 @@ export class Cell extends Phaser.GameObjects.Container {
   }
 
   private drawRedCross(): void {
-    const line: Phaser.GameObjects.Image = this.scene.add.image(0, 0, "red_cross");
+    const line: Phaser.GameObjects.Image = this.scene.add.image(0, 0, "atlas", "red_cross");
     this.add(line);
   }
 

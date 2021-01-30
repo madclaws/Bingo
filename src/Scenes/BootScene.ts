@@ -17,11 +17,16 @@ export default class BootScene extends Scene {
     });
   }
 
+  public preload(): void {
+    this.loadFont();
+    this.load.image("logo", "assets/images_dev/logo.png");
+    this.load.image("loader", "assets/images_dev/loader.png");
+  }
+
   public create() {
     this.settingPageVisibility();
 		this.addResizeListener();
     // this.onOrientationChange(false);
-    this.loadFont();
 		this.scene.start("LoadScene");
   }
 

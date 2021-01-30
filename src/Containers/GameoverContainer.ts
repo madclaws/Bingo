@@ -23,15 +23,16 @@ export class GameoverContainer extends Phaser.GameObjects.Container {
   }
 
   private renderPanel(winStatus: string): void {
-    const overlay: Phaser.GameObjects.Image = this.scene.add.image(0, 0, "overlay");
+    const overlay: Phaser.GameObjects.Image = this.scene.add.image(0, 0, "atlas", 
+    "overlay");
     this.add(overlay);
     const background: Phaser.GameObjects.Image = this.scene
-    .add.image(0, 0, "gameover_panel");
+    .add.image(0, 0, "atlas", "gameover_panel");
     background.displayHeight = 690;
     background.displayWidth = 690;
     this.add(background);
     const header: Phaser.GameObjects.Image = this.scene.add.image(0, -690 / 2 + 150,
-      "button");
+      "atlas", "button");
     header.angle = -3;
     header.setScale(0.8); 
     this.add(header);
@@ -56,7 +57,8 @@ export class GameoverContainer extends Phaser.GameObjects.Container {
     winTextLabel.setOrigin(0.5);
     this.add(winTextLabel);
 
-    const nextButton: Phaser.GameObjects.Image = this.scene.add.image(0, 690 / 2 - 100, "next");
+    const nextButton: Phaser.GameObjects.Image = this.scene.add.image(0, 690 / 2 - 100, "atlas",
+    "next");
     nextButton.setInteractive();
     nextButton.on("pointerup", () => {
       this.scene.tweens.add({

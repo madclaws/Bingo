@@ -38,7 +38,7 @@ export default class GameplayScene extends Scene {
 
   private renderBackground(): void {
     const bg: Phaser.GameObjects.Image = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2,
-      "bg");
+      "atlas", "bg");
   }
 
   private onGameBoard(boardData: any): void {
@@ -91,7 +91,7 @@ export default class GameplayScene extends Scene {
   private renderTurnNotification(): void {
     if (!this.turnNotifyContainer) {
       this.turnNotifyContainer = this.add.container(GAME_WIDTH / 2, - 177 / 2);
-      const bg: Phaser.GameObjects.Image = this.add.image(0, 0, "button");
+      const bg: Phaser.GameObjects.Image = this.add.image(0, 0, "atlas", "button");
       this.turnNotifyContainer.add(bg);
       const txt: Phaser.GameObjects.Text = this.add.text(0, -25, "Your Turn !", {fontFamily: "FORVERTZ",
       fontSize: "80px", color: "#ed1c24"});

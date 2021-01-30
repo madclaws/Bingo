@@ -88,7 +88,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   }
 
   private renderGridLine(x: number, y: number, isVertical: boolean): void {
-    const gridLine: Phaser.GameObjects.Image = this.scene.add.image(x, y, "line_grid");
+    const gridLine: Phaser.GameObjects.Image = this.scene.add.image(x, y, "atlas", "line_grid");
     if (isVertical) {
       gridLine.angle = 90;
       gridLine.scaleX = 1.8;
@@ -114,7 +114,8 @@ export class BoardContainer extends Phaser.GameObjects.Container {
       scaleX = 2.3;
       angle = lineData.index === 0 ? 45 : - 45;
     }
-    const clearLine: Phaser.GameObjects.Image = this.scene.add.image(x, y, "line_grid_red");
+    const clearLine: Phaser.GameObjects.Image = this.scene.add.image(x, y, "atlas",
+    "line_grid_red");
     clearLine.setScale(scaleX, 1.2);
     clearLine.angle = angle;
     this.add(clearLine);
