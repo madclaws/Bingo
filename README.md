@@ -1,6 +1,6 @@
 ## Multiplayer Bingo
 
-A multiplayer bingo game to showcase [Garuda](https://github.com/madclaws/garuda) multiplayer framework
+A multiplayer bingo game to showcase [Garuda](https://github.com/gamezop/garuda) multiplayer framework
 
 :construction_worker: Development
 
